@@ -7,10 +7,14 @@ import "github.com/urfave/cli"
 
 const usage = "simple docker"
 
+
 func main()  {
 	app := cli.NewApp()
 	app.Name = "lykdocker"
 	app.Usage = usage
 
-	app.Commands = []cli.Command()
+	app.Commands = []cli.Command{
+		initCommand,
+		runCommand,
+	}
 }

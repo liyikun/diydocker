@@ -1,27 +1,28 @@
 package main
 
 import (
+	"github.com/urfave/cli"
 	"fmt"
 	"github.com/sirupsen/logrus"
-	"github.com/urfave/cli"
 )
 
 var runCommand = cli.Command{
 	Name: "run",
 	Usage: "Create a container with namespace and cgroups limit simpledocker run -ti [command]",
 	Flags: []cli.Flag{
-		cli.BoolFlag{
-			Name: "ti",
+		&cli.BoolFlag{
+			Name: "tti",
 			Usage: "enable tty",
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if len(context.Args() < 1) {
+		if context.Args().Len() < 1 {
 			return fmt.Errorf("Missing container command")
 		}
 		cmd := context.Args().Get(0)
 		tty := context.Bool("ti")
 
+		Run(tty, cmd)
 		return nil
 	},
 }
