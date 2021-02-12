@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/liyikun/diydocker/container"
 	"github.com/urfave/cli"
 	"fmt"
 	"github.com/sirupsen/logrus"
@@ -11,12 +12,12 @@ var runCommand = cli.Command{
 	Usage: "Create a container with namespace and cgroups limit simpledocker run -ti [command]",
 	Flags: []cli.Flag{
 		&cli.BoolFlag{
-			Name: "tti",
+			Name: "ti",
 			Usage: "enable tty",
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if context.Args().Len() < 1 {
+		if len(context.Args()) < 1 {
 			return fmt.Errorf("Missing container command")
 		}
 		cmd := context.Args().Get(0)
@@ -35,6 +36,8 @@ var initCommand = cli.Command{
 		cmd := context.Args().Get(0)
 		logrus.Infof("command %s", cmd)
 
-		return nil
+		err := container.RunContainerInitProcess(cmd, nil)
+
+		return err
 	},
 }
